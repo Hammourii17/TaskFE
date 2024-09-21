@@ -13,17 +13,17 @@ const CustomButton = ({ onPress,title,style,disabled=false }) => {
   );
 }
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: "#007aff",
-        borderRadius: 5,
-        padding: 10,
-        margin: 10,
-        width: 150,
-        alignItems: "center",
-    },
-    text: {
-        color: "white",
-        fontSize: 20,
-    },
-    });
+  button: {
+      backgroundColor: "#007aff",
+      borderRadius: 5,
+      padding: 12,  // slightly increase padding
+      marginVertical: 15,  // adjust vertical margin for better spacing
+      width: 200,  // slightly wider button
+      alignItems: "center",
+  },
+  text: {
+      color: "white",
+      fontSize: 20,
+  },
+});
 export default CustomButton;

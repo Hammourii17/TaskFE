@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Alert, Text } from "react-native"; 
-import CustomButton from "../components/CustomButton";
+import CustomButton from "../components/customButton";
 import FormField from "../components/FormField";
-import CustomModal from "../components/CustomModal";
+import CustomModal from "../components/customModal";
+import { useDispatch } from 'react-redux';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AdminScreen = () => {
@@ -75,10 +76,27 @@ const AdminScreen = () => {
     );
   };
 
-  const deleteStudent = (studentId) => {
-    setStudents(students.filter(student => student.id !== studentId));
-    Alert.alert("Success", "Student deleted successfully");
-  };
+  const deleteStudent = async (studentId) => {
+    try {
+        const token = await AsyncStorage.getItem('token');
+        const response = await fetch(`https://localhost:3000/students/${studentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        if (response.ok) {
+            setStudents(students.filter(student => student.id !== studentId));
+            Alert.alert("Success", "Student deleted successfully");
+        } else {
+            Alert.alert("Error", "Failed to delete student");
+        }
+    } catch (error) {
+        console.error(error);
+        Alert.alert("Error", "An error occurred while deleting the student");
+    }
+};
 
   const handleCreateUser = () => {
     setStudents([...students, { id: Date.now().toString(), ...newUserData, isActive: false }]);

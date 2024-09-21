@@ -1,7 +1,7 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = 'https://localhost:3000';
+const API_URL = 'http://192.168.137.123:5003';
 
 export const login = async (email, password) => {
    try { const response = await fetch(`${API_URL}/login`, {

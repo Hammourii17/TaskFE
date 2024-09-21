@@ -18,10 +18,11 @@ const FormField = ({ label, value, onChangeText, placeholder, secureTextEntry })
 }
 const styles = StyleSheet.create({  
     containerStyle: {
-        height: 40,
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center'
+        height: 50,
+        flexDirection: 'column',  // changed from row to column
+        alignItems: 'flex-start',  // align label on the left
+        marginVertical: 10,  // add margin between fields
+        width: '100%',  // full width of the parent container
     },
     inputStyle: {
         color: '#000',
@@ -29,8 +30,12 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         fontSize: 18,
         lineHeight: 23,
-        flex: 2
+        borderColor: '#ccc',  // add border color
+        borderWidth: 1,       // add border width for input field
+        borderRadius: 5,      // slightly rounded corners
+        width: '100%',        // make input take the full width of container
     }
 });
+
 
 export default FormField;

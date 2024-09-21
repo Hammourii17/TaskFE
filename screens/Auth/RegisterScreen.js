@@ -1,9 +1,9 @@
-import React from "react";
-import {View , Alert , StyleSheet} from "react-native";
-import CustomButton from "../components/CustomButton";
+import React , {useState} from "react";
+import {View , Alert , StyleSheet } from "react-native";
+import CustomButton from "../../components/customButton";
 import FormField from "../../components/FormField";
 
-const RegisterScreen = (navigation) => {
+const RegisterScreen = ({navigation}) => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ confirmPassword, setConfirmPassword ] = useState('');
@@ -15,7 +15,7 @@ const RegisterScreen = (navigation) => {
     };
 
     const validatePassword = (password) => {
-        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return passwordRegex.test(password);
     }
 
@@ -42,7 +42,7 @@ const RegisterScreen = (navigation) => {
         }
 try {
         // Call the API to register the user
-         const response = await fetch('https://localhost:3000/register', {
+         const response = await fetch('https://192.168.137.123:3000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,19 +51,20 @@ try {
             });
 
             const data = await response.json();
-            if(data.message === 'User registered successfully, awaiting activation')
-
-            {
-                Alert.alert('Success',data.message);
+            
+            if (response.ok) {
+                Alert.alert('Success', data.message || 'User registered successfully, awaiting activation');
                 navigation.navigate('LoginScreen');
-            }
-            else
-            {
-                Alert.alert('Error',data.message);
+                setUsername('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+            } else {
+                Alert.alert('Error', data.message || 'An error occurred during registration');
             }
         } catch (error) {
-            console.log(error);
-            Alert.alert('Error','An error occurred');
+            console.error(error);
+            Alert.alert('Error', 'An error occurred while registering');
         }
     };
 
